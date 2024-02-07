@@ -22,7 +22,7 @@
 We construct the SciInstruct as follows:
 
 | Subject  |  Math  | Physics\&Chemistry | Formal Proofs (Lean) | Total   |
-| -------- | :----: | :-----------------: | :------------------: | ------- |
+| -------- | :----: | :----------------: | :------------------: | ------- |
 | # Number | 89,934 |       42,034       |        40,248        | 172,216 |
 
 We will release our data and model for public use.
@@ -41,14 +41,14 @@ epoch=2
 MASTER_PORT=$(shuf -n 1 -i 10000-65535)
 
 deepspeed --include="localhost:0,1,2,3" --master_port $MASTER_PORT main.py \
-    --deepspeed /ChatGLM2-6B-main/ptuning/deepspeed.json \
+    --deepspeed /path/to/deepspeed.json \
     --do_train \
-    --train_file SciInstruct.json \
+    --train_file /path/to/SciInstruct.json \
     --eval_steps 200 \
     --prompt_column content \
     --response_column summary \
     --overwrite_cache \
-    --model_name_or_path ChatGLM3-6b-Base \
+    --model_name_or_path /path/to/ChatGLM3-6b-Base \
     --output_dir ./output/SciGLM-LR$LR-WR$WR-$LST-epoch$epoch \
     --overwrite_output_dir \
     --max_source_length 128 \
