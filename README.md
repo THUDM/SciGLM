@@ -4,7 +4,7 @@
 📃 <a href="https://arxiv.org/abs/2401.07950" target="_blank">[SciGLM]</a> <a href="https://github.com/THUDM/SciGLM" target="_blank">[GitHub]</a> <br>
 </p>
 
-**SciGLM** is a suite of scientific language models able to conduct college-level scientific reasoning. Central to our approach is a novel self-reflective instruction annotation framework to address the data scarcity challenge in the science domain. This framework leverages existing LLMs to generate step-by-step reasoning for unlabelled scientific questions, followed by a process of self-reflective critic-and-revise. Applying this framework, we curated SciInstruct, a diverse and high-quality dataset encompassing mathematics, physics, chemistry, and formal proofs.
+**SciGLM** is a suite of scientific language models able to conduct college-level scientific reasoning. Central to our approach is a novel self-reflective instruction annotation framework to address the data scarcity challenge in the science domain. This framework leverages existing LLMs to generate step-by-step reasoning for unlabelled scientific questions, followed by a process of self-reflective critic-and-revise. Applying this framework, we curated SciInstruct, a diverse and high-quality dataset encompassing physics, chemistry, math, and formal proofs.
 
 ![](./assets/SciInstruct.png)
 
@@ -13,7 +13,7 @@
 ## **Table of Contents**
 
 - [SciInstruct](#introduction)
-- [Training](#Training)
+- [Training & Inference](#Training&Inference)
 - [Leaderboard](#Leaderboard)
 - [Citation](#Citation)
 
@@ -21,26 +21,40 @@
 
 We construct the SciInstruct as follows:
 
-| Subject  |  Math  | Physics\&Chemistry | Formal Proofs (Lean) | Total   |
-| -------- | :----: | :----------------: | :------------------: | ------- |
-| # Number | 89,934 |       42,034       |        40,248        | 172,216 |
+| Subject  |  Math  | Physics\& Chemistry | Formal Proofs (Lean) | Total   |
+| -------- | :----: | :------------------: | :------------------: | ------- |
+| # Number | 89,934 |       123,869       |        40,248        | 254,051 |
 
-We will release our data and model for public use.
+We release our data and model for public use. If you wish to use SciInstruct or SciGLM, you can download them from the following links.
 
-## **Training**
+Download data:
+[[Google Drive](https://drive.google.com/file/d/1UlvMEau9659BoBxbMG6sk-oKaiIIO-hJ/view?usp=sharing)]
+[[Tsinghua Cloud](https://cloud.tsinghua.edu.cn/d/da691b9466544d55be8e/)]
+
+Download model:
+[[Tsinghua Cloud](https://cloud.tsinghua.edu.cn/d/70e9cc379c204987820e/)]
+
+## **Training & Inference**
 
 ### **Fine-tuning**
+
+```
+git clone https://github.com/THUDM/SciGLM.git
+cd SciGLM
+pip install -r requirements.txt
+```
 
 To train the 6B model, run:
 
 ```bash
+cd /path/to/training
 LR=3e-6
 WR=0.0
 LST=linear
 epoch=2
 MASTER_PORT=$(shuf -n 1 -i 10000-65535)
 
-deepspeed --include="localhost:0,1,2,3" --master_port $MASTER_PORT main.py \
+/path/to/deepspeed --include="localhost:0,1,2,3" --master_port $MASTER_PORT main.py \
     --deepspeed /path/to/deepspeed.json \
     --do_train \
     --train_file /path/to/SciInstruct.json \
@@ -64,6 +78,13 @@ deepspeed --include="localhost:0,1,2,3" --master_port $MASTER_PORT main.py \
     --lr_scheduler_type $LST \
     --warmup_ratio $WR \
     --fp16
+```
+
+### Inference
+
+```
+cd /path/to/inference
+python cli_demo.py
 ```
 
 ## **Leaderboard**
