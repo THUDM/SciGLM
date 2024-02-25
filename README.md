@@ -32,7 +32,7 @@ Download data:
 [[Tsinghua Cloud](https://cloud.tsinghua.edu.cn/d/da691b9466544d55be8e/)]
 
 Download model:
-[[Tsinghua Cloud](https://cloud.tsinghua.edu.cn/d/70e9cc379c204987820e/)]
+[[Hugging Face](https://huggingface.co/zd21/SciGLM-6B)]
 
 ## **Training & Inference**
 
